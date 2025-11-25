@@ -63,6 +63,7 @@
             display: flex;
             gap: 2rem;
             list-style: none;
+            align-items: center;
         }
 
         .nav-links a {
@@ -80,6 +81,15 @@
             display: flex;
             gap: 1rem;
             align-items: center;
+        }
+
+        .language-selector {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--light);
+            padding: 0.5rem;
+            border-radius: 6px;
+            cursor: pointer;
         }
 
         .btn {
@@ -370,6 +380,8 @@
 
             .nav-links {
                 gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
             }
 
             .hero h1 {
@@ -421,16 +433,23 @@
         <nav class="nav">
             <div class="logo">CosmoStore</div>
             <ul class="nav-links">
-                <li><a href="#" onclick="showPage('home')">Главная</a></li>
-                <li><a href="#" onclick="showPage('products')">Товары</a></li>
-                <li><a href="#" onclick="showPage('about')">О нас</a></li>
-                <li><a href="#" onclick="showPage('contact')">Контакты</a></li>
+                <li><a href="#" onclick="showPage('home')" data-i18n="nav.home">Главная</a></li>
+                <li><a href="#" onclick="showPage('products')" data-i18n="nav.products">Товары</a></li>
+                <li><a href="#" onclick="showPage('about')" data-i18n="nav.about">О нас</a></li>
+                <li><a href="#" onclick="showPage('contact')" data-i18n="nav.contact">Контакты</a></li>
+                <li>
+                    <select class="language-selector" onchange="changeLanguage(this.value)">
+                        <option value="ru">🇷🇺 Русский</option>
+                        <option value="en">🇺🇸 English</option>
+                        <option value="fr">🇫🇷 Français</option>
+                    </select>
+                </li>
             </ul>
             <div class="nav-actions">
-                <button class="btn btn-outline" onclick="showPage('login')">Войти</button>
+                <button class="btn btn-outline" onclick="showPage('login')" data-i18n="nav.login">Войти</button>
                 <div class="cart-icon">
                     <button class="btn btn-primary" onclick="showPage('cart')">
-                        🛒 Корзина
+                        🛒 <span data-i18n="nav.cart">Корзина</span>
                         <span class="cart-badge" id="cartBadge">0</span>
                     </button>
                 </div>
@@ -443,128 +462,129 @@
         <!-- Home Page -->
         <section id="home" class="page active">
             <div class="hero">
-                <h1>Космические технологии будущего</h1>
-                <p>Откройте для себя инновационные продукты для исследования космоса и улучшения жизни на Земле</p>
-                <button class="btn btn-primary" onclick="showPage('products')">Смотреть товары</button>
+                <h1 data-i18n="home.title">Космические технологии будущего</h1>
+                <p data-i18n="home.subtitle">Откройте для себя инновационные продукты для исследования космоса и улучшения жизни на Земле</p>
+                <button class="btn btn-primary" onclick="showPage('products')" data-i18n="home.cta">Смотреть товары</button>
             </div>
 
             <div class="products-grid">
                 <div class="product-card">
                     <div class="product-image">🚀</div>
-                    <h3 class="product-title">Квантовый двигатель</h3>
+                    <h3 class="product-title" data-i18n="products.quantum_engine.name">Квантовый двигатель</h3>
                     <div class="product-price">$45,000</div>
-                    <p class="product-description">Инновационный двигатель для межпланетных путешествий</p>
-                    <button class="btn btn-primary" onclick="addToCart(1)">В корзину</button>
+                    <p class="product-description" data-i18n="products.quantum_engine.description">Инновационный двигатель для межпланетных путешествий</p>
+                    <button class="btn btn-primary" onclick="addToCart(1)" data-i18n="products.add_to_cart">В корзину</button>
                 </div>
                 <div class="product-card">
                     <div class="product-image">🛰️</div>
-                    <h3 class="product-title">Нано-спутник</h3>
+                    <h3 class="product-title" data-i18n="products.nano_satellite.name">Нано-спутник</h3>
                     <div class="product-price">$12,500</div>
-                    <p class="product-description">Компактный спутник для научных исследований</p>
-                    <button class="btn btn-primary" onclick="addToCart(2)">В корзину</button>
+                    <p class="product-description" data-i18n="products.nano_satellite.description">Компактный спутник для научных исследований</p>
+                    <button class="btn btn-primary" onclick="addToCart(2)" data-i18n="products.add_to_cart">В корзину</button>
                 </div>
                 <div class="product-card">
                     <div class="product-image">👨‍🚀</div>
-                    <h3 class="product-title">Скафандр нового поколения</h3>
+                    <h3 class="product-title" data-i18n="products.spacesuit.name">Скафандр нового поколения</h3>
                     <div class="product-price">$8,200</div>
-                    <p class="product-description">Ультрасовременный скафандр с ИИ-помощником</p>
-                    <button class="btn btn-primary" onclick="addToCart(3)">В корзину</button>
+                    <p class="product-description" data-i18n="products.spacesuit.description">Ультрасовременный скафандр с ИИ-помощником</p>
+                    <button class="btn btn-primary" onclick="addToCart(3)" data-i18n="products.add_to_cart">В корзину</button>
                 </div>
             </div>
         </section>
 
         <!-- Products Page -->
         <section id="products" class="page">
-            <h1 class="text-center mb-2">Наши товары</h1>
-            <div class="products-grid">
+            <h1 class="text-center mb-2" data-i18n="products.title">Наши товары</h1>
+            <div class="products-grid" id="productsGrid">
                 <!-- Products will be loaded here -->
             </div>
         </section>
 
         <!-- Cart Page -->
         <section id="cart" class="page">
-            <h1 class="text-center mb-2">Корзина</h1>
+            <h1 class="text-center mb-2" data-i18n="cart.title">Корзина</h1>
             <div class="cart-items" id="cartItems">
                 <!-- Cart items will be loaded here -->
             </div>
             <div class="cart-summary">
-                <h3>Итого: $<span id="cartTotal">0</span></h3>
-                <button class="btn btn-primary mt-2" onclick="showCheckout()">Оформить заказ</button>
+                <h3 data-i18n="cart.total">Итого: $<span id="cartTotal">0</span></h3>
+                <button class="btn btn-primary mt-2" onclick="showCheckout()" data-i18n="cart.checkout">Оформить заказ</button>
             </div>
         </section>
 
         <!-- About Page -->
         <section id="about" class="page">
-            <h1 class="text-center mb-2">О компании CosmoStore</h1>
+            <h1 class="text-center mb-2" data-i18n="about.title">О компании CosmoStore</h1>
             <div style="max-width: 800px; margin: 0 auto;">
-                <p>Мы - ведущая компания в области космических технологий, основанная в 2030 году. Наша миссия - сделать космос доступным для каждого.</p>
+                <p data-i18n="about.description">Мы - ведущая компания в области космических технологий, основанная в 2030 году. Наша миссия - сделать космос доступным для каждого.</p>
                 
-                <h3 class="mt-2">Наши достижения:</h3>
+                <h3 class="mt-2" data-i18n="about.achievements">Наши достижения:</h3>
                 <ul style="margin: 1rem 0 1rem 2rem;">
-                    <li>Более 100 успешных запусков</li>
-                    <li>Партнерство с NASA и SpaceX</li>
-                    <li>Инновационные разработки в области квантовых двигателей</li>
-                    <li>Обучение более 5000 космонавтов</li>
+                    <li data-i18n="about.achievement1">Более 100 успешных запусков</li>
+                    <li data-i18n="about.achievement2">Партнерство с NASA и SpaceX</li>
+                    <li data-i18n="about.achievement3">Инновационные разработки в области квантовых двигателей</li>
+                    <li data-i18n="about.achievement4">Обучение более 5000 космонавтов</li>
                 </ul>
             </div>
         </section>
 
         <!-- Contact Page -->
         <section id="contact" class="page">
-            <h1 class="text-center mb-2">Свяжитесь с нами</h1>
+            <h1 class="text-center mb-2" data-i18n="contact.title">Свяжитесь с нами</h1>
             <div style="max-width: 600px; margin: 0 auto;">
                 <div class="form-group">
-                    <label>Имя</label>
+                    <label data-i18n="contact.name">Имя</label>
                     <input type="text" class="form-control" id="contactName">
                 </div>
                 <div class="form-group">
-                    <label>Email</label>
+                    <label data-i18n="contact.email">Email</label>
                     <input type="email" class="form-control" id="contactEmail">
                 </div>
                 <div class="form-group">
-                    <label>Сообщение</label>
+                    <label data-i18n="contact.message">Сообщение</label>
                     <textarea class="form-control" id="contactMessage" rows="5"></textarea>
                 </div>
-                <button class="btn btn-primary" onclick="sendMessage()">Отправить сообщение</button>
+                <button class="btn btn-primary" onclick="sendMessage()" data-i18n="contact.send">Отправить сообщение</button>
             </div>
         </section>
 
         <!-- Login Page -->
         <section id="login" class="page">
-            <h1 class="text-center mb-2">Вход в систему</h1>
+            <h1 class="text-center mb-2" data-i18n="login.title">Вход в систему</h1>
             <div style="max-width: 400px; margin: 0 auto;">
                 <div class="form-group">
-                    <label>Email</label>
+                    <label data-i18n="login.email">Email</label>
                     <input type="email" class="form-control" id="loginEmail">
                 </div>
                 <div class="form-group">
-                    <label>Пароль</label>
+                    <label data-i18n="login.password">Пароль</label>
                     <input type="password" class="form-control" id="loginPassword">
                 </div>
-                <button class="btn btn-primary" onclick="login()">Войти</button>
+                <button class="btn btn-primary" onclick="login()" data-i18n="login.button">Войти</button>
                 <p class="text-center mt-2">
-                    Нет аккаунта? <a href="#" style="color: var(--accent);" onclick="showPage('register')">Зарегистрироваться</a>
+                    <span data-i18n="login.no_account">Нет аккаунта?</span> 
+                    <a href="#" style="color: var(--accent);" onclick="showPage('register')" data-i18n="login.register">Зарегистрироваться</a>
                 </p>
             </div>
         </section>
 
         <!-- Register Page -->
         <section id="register" class="page">
-            <h1 class="text-center mb-2">Регистрация</h1>
+            <h1 class="text-center mb-2" data-i18n="register.title">Регистрация</h1>
             <div style="max-width: 400px; margin: 0 auto;">
                 <div class="form-group">
-                    <label>Имя</label>
+                    <label data-i18n="register.name">Имя</label>
                     <input type="text" class="form-control" id="registerName">
                 </div>
                 <div class="form-group">
-                    <label>Email</label>
+                    <label data-i18n="register.email">Email</label>
                     <input type="email" class="form-control" id="registerEmail">
                 </div>
                 <div class="form-group">
-                    <label>Пароль</label>
+                    <label data-i18n="register.password">Пароль</label>
                     <input type="password" class="form-control" id="registerPassword">
                 </div>
-                <button class="btn btn-primary" onclick="register()">Зарегистрироваться</button>
+                <button class="btn btn-primary" onclick="register()" data-i18n="register.button">Зарегистрироваться</button>
             </div>
         </section>
     </main>
@@ -573,20 +593,20 @@
     <div class="modal" id="checkoutModal">
         <div class="modal-content">
             <button class="close-modal" onclick="closeCheckout()">×</button>
-            <h2 class="text-center mb-2">Оформление заказа</h2>
+            <h2 class="text-center mb-2" data-i18n="checkout.title">Оформление заказа</h2>
             <div class="form-group">
-                <label>Адрес доставки</label>
+                <label data-i18n="checkout.address">Адрес доставки</label>
                 <input type="text" class="form-control" id="deliveryAddress">
             </div>
             <div class="form-group">
-                <label>Способ оплаты</label>
+                <label data-i18n="checkout.payment">Способ оплаты</label>
                 <select class="form-control" id="paymentMethod">
-                    <option value="card">Кредитная карта</option>
-                    <option value="crypto">Криптовалюта</option>
-                    <option value="quantum">Квантовый перевод</option>
+                    <option value="card" data-i18n="checkout.card">Кредитная карта</option>
+                    <option value="crypto" data-i18n="checkout.crypto">Криптовалюта</option>
+                    <option value="quantum" data-i18n="checkout.quantum">Квантовый перевод</option>
                 </select>
             </div>
-            <button class="btn btn-primary" onclick="processOrder()">Подтвердить заказ</button>
+            <button class="btn btn-primary" onclick="processOrder()" data-i18n="checkout.confirm">Подтвердить заказ</button>
         </div>
     </div>
 
@@ -595,23 +615,350 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <p>&copy; 2024 CosmoStore. Все права защищены.</p>
-        <p>Космические технологии для лучшего будущего</p>
+        <p>&copy; 2024 CosmoStore. <span data-i18n="footer.rights">Все права защищены.</span></p>
+        <p data-i18n="footer.mission">Космические технологии для лучшего будущего</p>
     </footer>
 
     <script>
+        // Translations
+        const translations = {
+            ru: {
+                // Navigation
+                "nav.home": "Главная",
+                "nav.products": "Товары",
+                "nav.about": "О нас",
+                "nav.contact": "Контакты",
+                "nav.login": "Войти",
+                "nav.cart": "Корзина",
+
+                // Home
+                "home.title": "Космические технологии будущего",
+                "home.subtitle": "Откройте для себя инновационные продукты для исследования космоса и улучшения жизни на Земле",
+                "home.cta": "Смотреть товары",
+
+                // Products
+                "products.title": "Наши товары",
+                "products.add_to_cart": "В корзину",
+                "products.quantum_engine.name": "Квантовый двигатель",
+                "products.quantum_engine.description": "Инновационный двигатель для межпланетных путешествий",
+                "products.nano_satellite.name": "Нано-спутник",
+                "products.nano_satellite.description": "Компактный спутник для научных исследований",
+                "products.spacesuit.name": "Скафандр нового поколения",
+                "products.spacesuit.description": "Ультрасовременный скафандр с ИИ-помощником",
+                "products.planetarium.name": "Планетарий AR",
+                "products.planetarium.description": "Дополненная реальность для изучения космоса",
+                "products.printer.name": "Космический 3D-принтер",
+                "products.printer.description": "Печать деталей в условиях невесомости",
+                "products.station.name": "Орбитальная станция",
+                "products.station.description": "Частная космическая станция для исследований",
+
+                // Cart
+                "cart.title": "Корзина",
+                "cart.total": "Итого: $",
+                "cart.checkout": "Оформить заказ",
+                "cart.empty": "Корзина пуста",
+                "cart.remove": "Удалить",
+
+                // About
+                "about.title": "О компании CosmoStore",
+                "about.description": "Мы - ведущая компания в области космических технологий, основанная в 2030 году. Наша миссия - сделать космос доступным для каждого.",
+                "about.achievements": "Наши достижения:",
+                "about.achievement1": "Более 100 успешных запусков",
+                "about.achievement2": "Партнерство с NASA и SpaceX",
+                "about.achievement3": "Инновационные разработки в области квантовых двигателей",
+                "about.achievement4": "Обучение более 5000 космонавтов",
+
+                // Contact
+                "contact.title": "Свяжитесь с нами",
+                "contact.name": "Имя",
+                "contact.email": "Email",
+                "contact.message": "Сообщение",
+                "contact.send": "Отправить сообщение",
+
+                // Login
+                "login.title": "Вход в систему",
+                "login.email": "Email",
+                "login.password": "Пароль",
+                "login.button": "Войти",
+                "login.no_account": "Нет аккаунта?",
+                "login.register": "Зарегистрироваться",
+
+                // Register
+                "register.title": "Регистрация",
+                "register.name": "Имя",
+                "register.email": "Email",
+                "register.password": "Пароль",
+                "register.button": "Зарегистрироваться",
+
+                // Checkout
+                "checkout.title": "Оформление заказа",
+                "checkout.address": "Адрес доставки",
+                "checkout.payment": "Способ оплаты",
+                "checkout.card": "Кредитная карта",
+                "checkout.crypto": "Криптовалюта",
+                "checkout.quantum": "Квантовый перевод",
+                "checkout.confirm": "Подтвердить заказ",
+
+                // Footer
+                "footer.rights": "Все права защищены",
+                "footer.mission": "Космические технологии для лучшего будущего",
+
+                // Notifications
+                "notification.added_to_cart": "добавлен в корзину!",
+                "notification.cart_empty": "Корзина пуста!",
+                "notification.order_placed": "Заказ оформлен! Сумма: $",
+                "notification.message_sent": "Сообщение отправлено! Мы свяжемся с вами в ближайшее время.",
+                "notification.login_success": "Успешный вход!",
+                "notification.register_success": "Регистрация успешна!",
+                "notification.fill_all_fields": "Пожалуйста, заполните все поля"
+            },
+            en: {
+                // Navigation
+                "nav.home": "Home",
+                "nav.products": "Products",
+                "nav.about": "About",
+                "nav.contact": "Contact",
+                "nav.login": "Login",
+                "nav.cart": "Cart",
+
+                // Home
+                "home.title": "Future Space Technologies",
+                "home.subtitle": "Discover innovative products for space exploration and improving life on Earth",
+                "home.cta": "View Products",
+
+                // Products
+                "products.title": "Our Products",
+                "products.add_to_cart": "Add to Cart",
+                "products.quantum_engine.name": "Quantum Engine",
+                "products.quantum_engine.description": "Innovative engine for interplanetary travel",
+                "products.nano_satellite.name": "Nano Satellite",
+                "products.nano_satellite.description": "Compact satellite for scientific research",
+                "products.spacesuit.name": "Next-Gen Spacesuit",
+                "products.spacesuit.description": "Ultra-modern spacesuit with AI assistant",
+                "products.planetarium.name": "AR Planetarium",
+                "products.planetarium.description": "Augmented reality for space exploration",
+                "products.printer.name": "Space 3D Printer",
+                "products.printer.description": "Printing parts in zero gravity conditions",
+                "products.station.name": "Orbital Station",
+                "products.station.description": "Private space station for research",
+
+                // Cart
+                "cart.title": "Shopping Cart",
+                "cart.total": "Total: $",
+                "cart.checkout": "Checkout",
+                "cart.empty": "Cart is empty",
+                "cart.remove": "Remove",
+
+                // About
+                "about.title": "About CosmoStore",
+                "about.description": "We are a leading company in space technologies, founded in 2030. Our mission is to make space accessible to everyone.",
+                "about.achievements": "Our Achievements:",
+                "about.achievement1": "Over 100 successful launches",
+                "about.achievement2": "Partnership with NASA and SpaceX",
+                "about.achievement3": "Innovative developments in quantum engines",
+                "about.achievement4": "Training over 5000 astronauts",
+
+                // Contact
+                "contact.title": "Contact Us",
+                "contact.name": "Name",
+                "contact.email": "Email",
+                "contact.message": "Message",
+                "contact.send": "Send Message",
+
+                // Login
+                "login.title": "Login",
+                "login.email": "Email",
+                "login.password": "Password",
+                "login.button": "Login",
+                "login.no_account": "No account?",
+                "login.register": "Register",
+
+                // Register
+                "register.title": "Register",
+                "register.name": "Name",
+                "register.email": "Email",
+                "register.password": "Password",
+                "register.button": "Register",
+
+                // Checkout
+                "checkout.title": "Checkout",
+                "checkout.address": "Delivery Address",
+                "checkout.payment": "Payment Method",
+                "checkout.card": "Credit Card",
+                "checkout.crypto": "Cryptocurrency",
+                "checkout.quantum": "Quantum Transfer",
+                "checkout.confirm": "Confirm Order",
+
+                // Footer
+                "footer.rights": "All rights reserved",
+                "footer.mission": "Space technologies for a better future",
+
+                // Notifications
+                "notification.added_to_cart": "added to cart!",
+                "notification.cart_empty": "Cart is empty!",
+                "notification.order_placed": "Order placed! Amount: $",
+                "notification.message_sent": "Message sent! We'll contact you soon.",
+                "notification.login_success": "Login successful!",
+                "notification.register_success": "Registration successful!",
+                "notification.fill_all_fields": "Please fill all fields"
+            },
+            fr: {
+                // Navigation
+                "nav.home": "Accueil",
+                "nav.products": "Produits",
+                "nav.about": "À propos",
+                "nav.contact": "Contact",
+                "nav.login": "Connexion",
+                "nav.cart": "Panier",
+
+                // Home
+                "home.title": "Technologies Spatiales du Futur",
+                "home.subtitle": "Découvrez des produits innovants pour l'exploration spatiale et l'amélioration de la vie sur Terre",
+                "home.cta": "Voir les produits",
+
+                // Products
+                "products.title": "Nos Produits",
+                "products.add_to_cart": "Ajouter au panier",
+                "products.quantum_engine.name": "Moteur Quantique",
+                "products.quantum_engine.description": "Moteur innovant pour les voyages interplanétaires",
+                "products.nano_satellite.name": "Nano-Satellite",
+                "products.nano_satellite.description": "Satellite compact pour la recherche scientifique",
+                "products.spacesuit.name": "Combinaison Nouvelle Génération",
+                "products.spacesuit.description": "Combinaison ultramoderne avec assistant IA",
+                "products.planetarium.name": "Planétarium AR",
+                "products.planetarium.description": "Réalité augmentée pour l'exploration spatiale",
+                "products.printer.name": "Imprimante 3D Spatiale",
+                "products.printer.description": "Impression de pièces en conditions d'apesanteur",
+                "products.station.name": "Station Orbitale",
+                "products.station.description": "Station spatiale privée pour la recherche",
+
+                // Cart
+                "cart.title": "Panier",
+                "cart.total": "Total: $",
+                "cart.checkout": "Commander",
+                "cart.empty": "Panier vide",
+                "cart.remove": "Supprimer",
+
+                // About
+                "about.title": "À propos de CosmoStore",
+                "about.description": "Nous sommes une entreprise leader dans les technologies spatiales, fondée en 2030. Notre mission est de rendre l'espace accessible à tous.",
+                "about.achievements": "Nos Réalisations:",
+                "about.achievement1": "Plus de 100 lancements réussis",
+                "about.achievement2": "Partenariat avec NASA et SpaceX",
+                "about.achievement3": "Développements innovants dans les moteurs quantiques",
+                "about.achievement4": "Formation de plus de 5000 astronautes",
+
+                // Contact
+                "contact.title": "Contactez-nous",
+                "contact.name": "Nom",
+                "contact.email": "Email",
+                "contact.message": "Message",
+                "contact.send": "Envoyer le message",
+
+                // Login
+                "login.title": "Connexion",
+                "login.email": "Email",
+                "login.password": "Mot de passe",
+                "login.button": "Se connecter",
+                "login.no_account": "Pas de compte?",
+                "login.register": "S'inscrire",
+
+                // Register
+                "register.title": "Inscription",
+                "register.name": "Nom",
+                "register.email": "Email",
+                "register.password": "Mot de passe",
+                "register.button": "S'inscrire",
+
+                // Checkout
+                "checkout.title": "Commande",
+                "checkout.address": "Adresse de livraison",
+                "checkout.payment": "Méthode de paiement",
+                "checkout.card": "Carte de crédit",
+                "checkout.crypto": "Cryptomonnaie",
+                "checkout.quantum": "Transfert quantique",
+                "checkout.confirm": "Confirmer la commande",
+
+                // Footer
+                "footer.rights": "Tous droits réservés",
+                "footer.mission": "Technologies spatiales pour un avenir meilleur",
+
+                // Notifications
+                "notification.added_to_cart": "ajouté au panier!",
+                "notification.cart_empty": "Panier vide!",
+                "notification.order_placed": "Commande passée! Montant: $",
+                "notification.message_sent": "Message envoyé! Nous vous contacterons bientôt.",
+                "notification.login_success": "Connexion réussie!",
+                "notification.register_success": "Inscription réussie!",
+                "notification.fill_all_fields": "Veuillez remplir tous les champs"
+            }
+        };
+
         // Data
         const products = [
-            { id: 1, name: "Квантовый двигатель", price: 45000, description: "Инновационный двигатель для межпланетных путешествий", emoji: "🚀" },
-            { id: 2, name: "Нано-спутник", price: 12500, description: "Компактный спутник для научных исследований", emoji: "🛰️" },
-            { id: 3, name: "Скафандр нового поколения", price: 8200, description: "Ультрасовременный скафандр с ИИ-помощником", emoji: "👨‍🚀" },
-            { id: 4, name: "Планетарий AR", price: 3200, description: "Дополненная реальность для изучения космоса", emoji: "🌌" },
-            { id: 5, name: "Космический 3D-принтер", price: 15600, description: "Печать деталей в условиях невесомости", emoji: "🖨️" },
-            { id: 6, name: "Орбитальная станция", price: 2500000, description: "Частная космическая станция для исследований", emoji: "🛸" }
+            { id: 1, name: "products.quantum_engine.name", price: 45000, description: "products.quantum_engine.description", emoji: "🚀" },
+            { id: 2, name: "products.nano_satellite.name", price: 12500, description: "products.nano_satellite.description", emoji: "🛰️" },
+            { id: 3, name: "products.spacesuit.name", price: 8200, description: "products.spacesuit.description", emoji: "👨‍🚀" },
+            { id: 4, name: "products.planetarium.name", price: 3200, description: "products.planetarium.description", emoji: "🌌" },
+            { id: 5, name: "products.printer.name", price: 15600, description: "products.printer.description", emoji: "🖨️" },
+            { id: 6, name: "products.station.name", price: 2500000, description: "products.station.description", emoji: "🛸" }
         ];
 
         let cart = [];
         let currentUser = null;
+        let currentLanguage = 'ru';
+
+        // Language Management
+        function detectLanguage() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const urlLang = urlParams.get('lang');
+            if (urlLang && translations[urlLang]) return urlLang;
+
+            const savedLang = localStorage.getItem('cosmostore_language');
+            if (savedLang && translations[savedLang]) return savedLang;
+
+            const browserLang = navigator.language || navigator.userLanguage;
+            if (browserLang.startsWith('ru')) return 'ru';
+            if (browserLang.startsWith('fr')) return 'fr';
+            return 'en';
+        }
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem('cosmostore_language', lang);
+            updateContent();
+            
+            // Update language selector
+            document.querySelector('.language-selector').value = lang;
+        }
+
+        function updateContent() {
+            // Update all elements with data-i18n attribute
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[currentLanguage][key]) {
+                    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                        element.placeholder = translations[currentLanguage][key];
+                    } else if (element.tagName === 'OPTION') {
+                        element.textContent = translations[currentLanguage][key];
+                    } else {
+                        element.textContent = translations[currentLanguage][key];
+                    }
+                }
+            });
+
+            // Update dynamic content
+            if (document.getElementById('products').classList.contains('active')) {
+                loadProducts();
+            }
+            if (document.getElementById('cart').classList.contains('active')) {
+                loadCart();
+            }
+        }
+
+        function getTranslation(key) {
+            return translations[currentLanguage][key] || key;
+        }
 
         // Page Navigation
         function showPage(pageId) {
@@ -629,14 +976,14 @@
 
         // Product Management
         function loadProducts() {
-            const grid = document.querySelector('#products .products-grid');
+            const grid = document.getElementById('productsGrid');
             grid.innerHTML = products.map(product => `
                 <div class="product-card">
                     <div class="product-image">${product.emoji}</div>
-                    <h3 class="product-title">${product.name}</h3>
+                    <h3 class="product-title">${getTranslation(product.name)}</h3>
                     <div class="product-price">$${product.price.toLocaleString()}</div>
-                    <p class="product-description">${product.description}</p>
-                    <button class="btn btn-primary" onclick="addToCart(${product.id})">В корзину</button>
+                    <p class="product-description">${getTranslation(product.description)}</p>
+                    <button class="btn btn-primary" onclick="addToCart(${product.id})">${getTranslation('products.add_to_cart')}</button>
                 </div>
             `).join('');
         }
@@ -653,7 +1000,7 @@
             }
             
             updateCartBadge();
-            showNotification(`${product.name} добавлен в корзину!`);
+            showNotification(`${getTranslation(product.name)} ${getTranslation('notification.added_to_cart')}`);
         }
 
         function removeFromCart(productId) {
@@ -679,7 +1026,7 @@
             const cartTotal = document.getElementById('cartTotal');
             
             if (cart.length === 0) {
-                cartItems.innerHTML = '<p class="text-center">Корзина пуста</p>';
+                cartItems.innerHTML = `<p class="text-center">${getTranslation('cart.empty')}</p>`;
                 cartTotal.textContent = '0';
                 return;
             }
@@ -687,14 +1034,14 @@
             cartItems.innerHTML = cart.map(item => `
                 <div class="cart-item">
                     <div>
-                        <h4>${item.name}</h4>
+                        <h4>${getTranslation(item.name)}</h4>
                         <p>$${item.price.toLocaleString()} × ${item.quantity}</p>
                     </div>
                     <div class="quantity-controls">
                         <button class="quantity-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
                         <span>${item.quantity}</span>
                         <button class="quantity-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
-                        <button class="btn btn-outline" onclick="removeFromCart(${item.id})" style="margin-left: 1rem;">Удалить</button>
+                        <button class="btn btn-outline" onclick="removeFromCart(${item.id})" style="margin-left: 1rem;">${getTranslation('cart.remove')}</button>
                     </div>
                 </div>
             `).join('');
@@ -712,7 +1059,7 @@
         // Checkout Process
         function showCheckout() {
             if (cart.length === 0) {
-                showNotification('Корзина пуста!');
+                showNotification(getTranslation('notification.cart_empty'));
                 return;
             }
             document.getElementById('checkoutModal').classList.add('active');
@@ -727,11 +1074,11 @@
             const payment = document.getElementById('paymentMethod').value;
             
             if (!address) {
-                showNotification('Пожалуйста, укажите адрес доставки');
+                showNotification(getTranslation('notification.fill_all_fields'));
                 return;
             }
             
-            showNotification(`Заказ оформлен! Сумма: $${document.getElementById('cartTotal').textContent}`);
+            showNotification(`${getTranslation('notification.order_placed')}${document.getElementById('cartTotal').textContent}`);
             cart = [];
             updateCartBadge();
             closeCheckout();
@@ -745,10 +1092,10 @@
             
             if (email && password) {
                 currentUser = { email, name: email.split('@')[0] };
-                showNotification('Успешный вход!');
+                showNotification(getTranslation('notification.login_success'));
                 showPage('home');
             } else {
-                showNotification('Пожалуйста, заполните все поля');
+                showNotification(getTranslation('notification.fill_all_fields'));
             }
         }
 
@@ -759,10 +1106,10 @@
             
             if (name && email && password) {
                 currentUser = { email, name };
-                showNotification('Регистрация успешна!');
+                showNotification(getTranslation('notification.register_success'));
                 showPage('home');
             } else {
-                showNotification('Пожалуйста, заполните все поля');
+                showNotification(getTranslation('notification.fill_all_fields'));
             }
         }
 
@@ -773,13 +1120,13 @@
             const message = document.getElementById('contactMessage').value;
             
             if (name && email && message) {
-                showNotification('Сообщение отправлено! Мы свяжемся с вами в ближайшее время.');
+                showNotification(getTranslation('notification.message_sent'));
                 // Clear form
                 document.getElementById('contactName').value = '';
                 document.getElementById('contactEmail').value = '';
                 document.getElementById('contactMessage').value = '';
             } else {
-                showNotification('Пожалуйста, заполните все поля');
+                showNotification(getTranslation('notification.fill_all_fields'));
             }
         }
 
@@ -796,6 +1143,9 @@
 
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
+            currentLanguage = detectLanguage();
+            document.querySelector('.language-selector').value = currentLanguage;
+            updateContent();
             updateCartBadge();
             loadProducts();
         });
